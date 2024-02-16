@@ -1,21 +1,15 @@
+import { Link } from "react-router-dom";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 
 import UserHeader from "./UserHeader";
-import {
-  fetchComments,
-  createComment,
-  deleteComment,
-} from "../redux/comments/comment.actions";
-import { LIKE } from "../redux/likes/likes.type";
-import { likeAndunlikePost } from "../redux/likes/likes.action";
-import Login_Signup from "./Login_Signup";
-import { useAppSelector, useAppDispatch } from "../app/hook";
-import { fetchPosts } from "../features/posts/postSlice";
 import { IPost } from "../types/type";
 import { ContextData } from "../contexts/contextData";
-import API from "../apis/baseUrl";
-import { Link } from "react-router-dom";
+
+import like from "../assets/heart-gray.svg";
+import repost from "../assets/repost.svg";
+import reply from "../assets/reply.svg";
+import share from "../assets/share.svg";
 
 type PostCardProps = {
   post: IPost;
@@ -102,46 +96,46 @@ const PostCard = ({ children, post }: PostCardProps) => {
           <Card.Text className="d-flex gap-1 flex-wrap">
             {post?.category
               ? JSON.parse(post?.category).map(
-                (item: { value: string; label: string }, idx: number) => (
-                  <span key={idx}>#{item.label}</span>
-                ),
-              )
+                  (item: { value: string; label: string }, idx: number) => (
+                    <span key={idx}>#{item.label}</span>
+                  ),
+                )
               : null}
           </Card.Text>
         </Card.Body>
-        {/* <Card.Footer style={{ borderTop: "none" }} className="d-flex">
-          {currentUser ? (
-            <div
-              className="border rounded-5 d-flex justify-content-center align-items-center p-2"
+        <Card.Footer style={{ borderTop: "none" }} className="d-flex">
+          <Stack className="footer-img gap-3" direction="horizontal">
+            <img
+              src={like}
+              alt="like"
+              className="cursor-pointer object-fit-contain"
               role="button"
-              onClick={() => handleComment(post?._id)}
-            >
-              {postComments
-                ? postComments.filter((comment) => comment.postId === post?._id)
-                    .length + " notes"
-                : "notes"}
-            </div>
-            <div
-              className="border rounded-5 d-flex justify-content-center align-items-center p-2"
+              style={{ width: "24px", height: "24px" }}
+            />
+            <Link to={`/post/${post.id}`}>
+              <img
+                src={reply}
+                alt="reply"
+                className="cursor-pointer object-fit-contain"
+                style={{ width: "24px", height: "24px" }}
+              />
+            </Link>
+            <img
+              src={repost}
+              alt="repost"
+              className="cursor-pointer object-fit-contain"
               role="button"
-              onClick={() => setShow(true)}
-            >
-              {postComments
-                ? postComments.filter((comment) => comment.postId === post?._id)
-                    .length + " notes"
-                : "notes"}
-            </div>
-          )}
-          <Stack className="footer-img ms-auto gap-3" direction="horizontal">
-            <i
-              className={`bi bi-heart ${checkLike ? "text-danger" : null}`}
+              style={{ width: "24px", height: "24px" }}
+            />
+            <img
+              src={share}
+              alt="share"
+              className="cursor-pointer object-fit-contain"
               role="button"
-              onClick={
-                currentUser ? () => handleLike(post._id) : () => setShow(true)
-              }
-            ></i>
+              style={{ width: "24px", height: "24px" }}
+            />
           </Stack>
-        </Card.Footer> */}
+        </Card.Footer>
 
         {/* {check && ( */}
         {/*   <div className="commentSec p-3"> */}
@@ -255,11 +249,11 @@ const PostCard = ({ children, post }: PostCardProps) => {
         {/*   </div> */}
         {/* )} */}
       </Card>
-      <Login_Signup
-        show={show}
-        handleModal1={() => setShow(false)}
-        setShow={setShow}
-      />
+      {/* <Login_Signup */}
+      {/*   show={show} */}
+      {/*   handleModal1={() => setShow(false)} */}
+      {/*   setShow={setShow} */}
+      {/* /> */}
     </div>
   );
 };
